@@ -26,9 +26,9 @@ namespace sps
             if (_initState < 0)
             {
                 _timer.Stop();
-                Hide();
                 MainForm forma_new = new MainForm();
                 forma_new.Show();
+                Close();
             }
         }
         
