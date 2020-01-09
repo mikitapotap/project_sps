@@ -1,19 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace sps
 {
@@ -22,9 +11,25 @@ namespace sps
     /// </summary>
     public partial class MainWindow : Window
     {
+        private int _initState;
+        private readonly DispatcherTimer _timer;
         public MainWindow()
         {
             InitializeComponent();
+            _timer = new DispatcherTimer();
+        }
+
+        private void OnTimerTick(object sender, object e)
+        {
+            Label_info.Content = _initState;
+            _initState -= 1;
+            if (_initState < 0)
+            {
+                _timer.Stop();
+                Hide();
+                MainForm forma_new = new MainForm();
+                forma_new.Show();
+            }
         }
         
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -56,8 +61,10 @@ namespace sps
                 Label_info.Content = "Доступ разрешён";
                 Label_info.Foreground = Brushes.GreenYellow;
 
-                //MainForm forma_new = new MainForm();
-                //forma_new.ShowDialog();
+                _initState = 3;
+                _timer.Interval = TimeSpan.FromSeconds(1);
+                _timer.Tick += OnTimerTick;
+                _timer.Start();
             }
             else
             {
