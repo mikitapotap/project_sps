@@ -25,6 +25,7 @@ namespace sps
             _initState -= 1;
             if (_initState < 0)
             {
+                Button_enter.IsEnabled = true;
                 _timer.Stop();
                 MainForm forma_new = new MainForm();
                 forma_new.Show();
@@ -60,6 +61,10 @@ namespace sps
 
                 Label_info.Content = "Доступ разрешён";
                 Label_info.Foreground = Brushes.GreenYellow;
+
+                Login_reg.IsEnabled = false;
+                Pass_reg.IsEnabled = false;
+                Button_enter.IsEnabled = false;
 
                 _initState = 3;
                 _timer.Interval = TimeSpan.FromSeconds(1);
